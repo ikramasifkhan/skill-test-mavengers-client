@@ -40,7 +40,7 @@ onMounted(() => {
         <VCard>
           <VCardText class="d-flex justify-space-between">
             <div>
-              <h3>Title</h3>
+              <h3>Article</h3>
             </div>
             <div>
               <v-breadcrumbs
@@ -67,6 +67,8 @@ onMounted(() => {
                     placeholder="Enter title"
                     label="Title"
                     :rules="rulesStore.requiredRules"
+                    @keyup="articleStore.errors.title = ''"
+                    :error-messages="articleStore.errors.title"
                   />
                 </VCol>
                 <VCol cols="12">

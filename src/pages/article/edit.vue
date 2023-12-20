@@ -1,9 +1,9 @@
 <script setup>
-import { useCategoryStore } from "@/stores/category";
 import { useArticleStore } from "@/stores/article";
+import { useCategoryStore } from "@/stores/category";
 import { useRulesStore } from "@/stores/rules";
 import { onMounted } from "vue";
-import { useRoute } from 'vue-router'
+import { useRoute } from 'vue-router';
 
 const rulesStore = useRulesStore()
 const categoryStore = useCategoryStore()
@@ -65,14 +65,15 @@ onMounted(() => {
               <VRow>
                 <!-- email -->
                 <VCol cols="12">
-                  <pre>{{ props }}</pre>
-
+                  <input type="hidden" v-model="articleStore.article.id">
                   <VTextField
                     v-model="articleStore.article.title"
                     autofocus
                     placeholder="Enter title"
                     label="Title"
                     :rules="rulesStore.requiredRules"
+                    @keyup="articleStore.errors.title = ''"
+                    :error-messages="articleStore.errors.title"
                   />
                 </VCol>
                 <VCol cols="12">

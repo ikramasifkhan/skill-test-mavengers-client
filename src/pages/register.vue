@@ -59,11 +59,11 @@ const isPasswordVisible = ref(false)
             <!-- email -->
             <VCol cols="12">
               <VTextField
-                v-model="authStore.newUser.email.value"
+                v-model="authStore.newUser.email"
                 autofocus
                 placeholder="johndoe@email.com"
-                @keyup="authStore.removeEmailServerError()"
-                :error-messages="authStore.newUser.email.error"
+                @keyup="authStore.errors.registerError = ''"
+                :error-messages="authStore.errors.registerError"
                 label="Email"
                 type="email"
                 :rules="rulesStore.emailRules"

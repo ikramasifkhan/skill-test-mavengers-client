@@ -1,13 +1,13 @@
 <script setup>
 import { VDataTable } from 'vuetify/labs/VDataTable'
 import { useCategoryStore } from '../../stores/category'
+import Swal from 'sweetalert2'
 
 const categoryStore = useCategoryStore()
 
 const headers = [
   { title: '#', sortable: false, key: 'serial' },
   { title: 'Name', key: 'name' },
-  { title: 'Status', key: 'status' },
   { title: 'Action', key: 'action' },
 ]
 
@@ -15,6 +15,21 @@ onMounted(() => {
   categoryStore.categoryList()
 })
 
+const deleteCategory = (id)=>{
+  Swal.fire({
+    title: "Are you sure?",
+    text: "You won't be able to revert this!",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Yes, delete it!"
+  }).then((result) => {
+    if (result.isConfirmed) {
+      categoryStore.deleteCategory(id)
+    }
+  });          
+}
 </script>
 
 <template>
@@ -27,7 +42,7 @@ onMounted(() => {
               <h4>Category list</h4>
             </div>
             <div>
-              <v-btn :to="{name: 'article-create'}">
+              <v-btn :to="{name: 'category-create'}">
                 Add category
               </v-btn>
               
@@ -45,16 +60,6 @@ onMounted(() => {
               </template>
 
               
-
-              <template #item.status="{ item }">
-                <v-chip color="primary" variant="flat" v-if="item.raw.status == 'active'">
-                  Active
-                </v-chip>
-                <v-chip color="warning" variant="flat" v-if="item.raw.status == 'inactive'">
-                  Inactive
-                </v-chip>
-              </template>
-
               <template #item.action="{ item }">
                 <div class="d-flex">
                   <VBtn
@@ -72,10 +77,22 @@ onMounted(() => {
                   <VBtn
                     size="38"
                     color="warning"
-                    :to="{name: 'article-edit',  params: { slug: item.raw.slug }}"
+                    :to="{name: 'category-edit',  params: { slug: item.raw.slug }}"
                   >
                     <VIcon
                       icon="tabler-pencil"
+                      size="22"
+                    />
+                  </VBtn>
+
+                  <VBtn
+                    size="38"
+                    color="error"
+                    class="ml-1"
+                    @click="deleteCategory(item.raw.id)"
+                  >
+                    <VIcon
+                      icon="tabler-trash"
                       size="22"
                     />
                   </VBtn>

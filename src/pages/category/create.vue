@@ -1,12 +1,10 @@
 <script setup>
 import { useCategoryStore } from "@/stores/category";
-import { useArticleStore } from "@/stores/article";
 import { useRulesStore } from "@/stores/rules";
 import { onMounted } from "vue";
 
 const rulesStore = useRulesStore()
 const categoryStore = useCategoryStore()
-const articleStore = useArticleStore()
 
 const breadcrumbItem = [
   {
@@ -17,7 +15,7 @@ const breadcrumbItem = [
   {
     title: 'List',
     disabled: false,
-    to: {path: '/articles'},
+    to: {name: 'category-list'},
   },
   {
     title: 'Create',
@@ -26,10 +24,6 @@ const breadcrumbItem = [
   },       
 ]
 
-
-onMounted(() => {
-  categoryStore.categoryList()
-})
 
 </script>
 
@@ -40,7 +34,7 @@ onMounted(() => {
         <VCard>
           <VCardText class="d-flex justify-space-between">
             <div>
-              <h3>Title</h3>
+              <h3>Category</h3>
             </div>
             <div>
               <v-breadcrumbs
@@ -61,49 +55,25 @@ onMounted(() => {
               <VRow>
                 <!-- email -->
                 <VCol cols="12">
+                  <input type="hidden" v-model="categoryStore.newCategory.id">
                   <VTextField
-                    v-model="articleStore.newArticle.title"
+                    v-model="categoryStore.newCategory.name"
                     autofocus
-                    placeholder="Enter title"
-                    label="Title"
+                    placeholder="Enter name"
+                    label="Name"
                     :rules="rulesStore.requiredRules"
+                    @keyup="categoryStore.errors.name = ''"
+                    :error-messages="categoryStore.errors.name"
                   />
                 </VCol>
-                <VCol cols="12">
-                  <VTextarea
-                    v-model="articleStore.newArticle.content"
-                    placeholder="Enter content"
-                    label="Content"
-                    :rules="rulesStore.requiredRules"
-                  />
-                </VCol>
-                <VCol cols="12">
-                  <VAutocomplete
-                    v-model="articleStore.newArticle.categories"
-                    :items="categoryStore.categories"
-                    item-title="name"
-                    item-value="id"
-                    autofocus
-                    placeholder="Enter categories"
-                    label="Categories"
-                    :rules="rulesStore.requiredRules"
-                    multiple
-                    chips
-                    closable-chips
-                  />
-                </VCol>
+                
      
-                <VCol>
-                  <!-- remember me checkbox -->
-                  <div class="d-flex align-center justify-space-between flex-wrap mt-1 mb-4">
-                  </div>
-
-                  <!-- login button -->
+                <VCol class="mt-4">
                   <VBtn
                     block
                     type="button"
                     :disabled="!rulesStore.isValidForm"
-                    @click="articleStore.createArticle"
+                    @click="categoryStore.createCategory"
                   >
                     Create
                   </VBtn>

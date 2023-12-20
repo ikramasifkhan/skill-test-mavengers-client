@@ -78,18 +78,6 @@ onMounted(() => {
                         <th>Slug</th>
                         <td>{{ categoryStore.category.slug }}</td>
                       </tr>
-                    
-                      <tr>
-                        <th>Status</th>
-                        <td>
-                          <v-chip color="primary" variant="flat" v-if="categoryStore.category.status == 'active'">
-                            Active
-                          </v-chip>
-                          <v-chip color="warning" variant="flat" v-if="categoryStore.category.status == 'inactive'">
-                            Inactive
-                          </v-chip>
-                        </td>
-                      </tr>
                     </tbody>
                   </VTable>
                 </VCol>

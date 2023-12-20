@@ -1,15 +1,12 @@
 <script setup>
 import { useCategoryStore } from "@/stores/category";
-import { useArticleStore } from "@/stores/article";
 import { useRulesStore } from "@/stores/rules";
 import { onMounted } from "vue";
-import { useRoute } from 'vue-router'
+import { useRoute } from 'vue-router';
 
 const rulesStore = useRulesStore()
 const categoryStore = useCategoryStore()
-const articleStore = useArticleStore()
 const route = useRoute()
-const props = defineProps(['info'])
 
 const breadcrumbItem = [
   {
@@ -20,7 +17,7 @@ const breadcrumbItem = [
   {
     title: 'List',
     disabled: false,
-    to: {path: '/articles'},
+    to: {name: 'category-list'},
   },
   {
     title: 'Edit',
@@ -31,8 +28,7 @@ const breadcrumbItem = [
 
 
 onMounted(() => {
-  categoryStore.categoryList()
-  articleStore.getArticleBySlug(route.params.slug)
+  categoryStore.getCategoryBySlug(route.params.slug)
 })
 
 </script>
@@ -44,7 +40,7 @@ onMounted(() => {
         <VCard>
           <VCardText class="d-flex justify-space-between">
             <div>
-              <h3>Article</h3>
+              <h3>Category</h3>
             </div>
             <div>
               <v-breadcrumbs
@@ -65,63 +61,25 @@ onMounted(() => {
               <VRow>
                 <!-- email -->
                 <VCol cols="12">
-                  <pre>{{ props }}</pre>
 
                   <VTextField
-                    v-model="articleStore.article.title"
+                    v-model="categoryStore.category.name"
                     autofocus
-                    placeholder="Enter title"
-                    label="Title"
+                    placeholder="Enter name"
+                    label="Name"
                     :rules="rulesStore.requiredRules"
+                    @keyup="categoryStore.errors.name = ''"
+                    :error-messages="categoryStore.errors.name"
                   />
                 </VCol>
-                <VCol cols="12">
-                  <VTextarea
-                    v-model="articleStore.article.content"
-                    placeholder="Enter content"
-                    label="Content"
-                    :rules="rulesStore.requiredRules"
-                  />
-                </VCol>
-                <VCol cols="12">
-                  <VAutocomplete
-                    v-model="articleStore.article.categories"
-                    :items="categoryStore.categories"
-                    item-title="name"
-                    item-value="id"
-                    autofocus
-                    placeholder="Enter categories"
-                    label="Categories"
-                    :rules="rulesStore.requiredRules"
-                    multiple
-                    chips
-                    closable-chips
-                  />
-                </VCol>
-
-                <VCol cols="12">
-                  <VAutocomplete
-                    v-model="articleStore.article.status"
-                    :items="['published', 'draft']"
-                    autofocus
-                    placeholder="Enter status"
-                    label="Status"
-                    :rules="rulesStore.requiredRules"
-                    chips
-                  />
-                </VCol>
-     
-                <VCol>
-                  <!-- remember me checkbox -->
-                  <div class="d-flex align-center justify-space-between flex-wrap mt-1 mb-4">
-                  </div>
-
-                  <!-- login button -->
+                
+  
+                <VCol class="mt-4">
                   <VBtn
                     block
                     type="button"
                     :disabled="!rulesStore.isValidForm"
-                    @click="articleStore.updateArticle"
+                    @click="categoryStore.updateCategory"
                   >
                     Update
                   </VBtn>

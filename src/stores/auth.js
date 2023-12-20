@@ -19,14 +19,14 @@ export const useAuthStore = defineStore('auth', {
 
             newUser: {
                 name: '',
-                email: {
-                    value: '',
-                    error: ''
-                },
+                email: '',
                 password: ''
             },
 
-            registerError: {}
+            errors: {
+                loginError: '',
+                registerError: ''
+            }
          }
     },
 
@@ -44,21 +44,21 @@ export const useAuthStore = defineStore('auth', {
                     })
                     .then(({data}) => {
                         if(data.success == true){
+                            toast.success("Login success");
+                            router.push('/dashboard')
+                            
                             localStorage.setItem('accessToken', data.data.access_token)
                             this.userInfo.name = data.data.user.name
                             this.userInfo.email = data.data.user.email
-
-                            router.push('/dashboard')
-                            toast.success("Login success");
+                            this.loginInfo.email = ''
+                            this.loginInfo.password = ''
+                            this.errors.loginError = ''
+                            
                         }
                     })
                     .catch(({response}) => {
                         if(response.status === 401){
-                            toast.error(response.data.message)
-                        }
-
-                        if(response.status === 422){
-                            commit("errors/SET_VALIDATION_ERRORS", response.data.errors, {root:true})
+                            this.errors.loginError = response.data.message  
                         }
                     })
             } catch (loginError) {
@@ -71,24 +71,23 @@ export const useAuthStore = defineStore('auth', {
                 return await http()
                     .post('/register', {
                         name: this.newUser.name,
-                        email: this.newUser.email.value,
+                        email: this.newUser.email,
                         password: this.newUser.password
                     })
                     .then(({data}) => {
                         if(data.success == true){
-                            this.newUser.name = ''
-                            this.newUser.email.value = ''
-                            this.newUser.email.error = ''
-                            this.newUser.password = ''
-                            router.push('/login')
                             toast.success("Registration successful");
+                            router.push('/login')
+                            this.newUser.name = ''
+                            this.newUser.email = ''
+                            this.newUser.password = ''
+                            this.errors.registerError = ''
                         }
                     })
                     .catch(({response}) => {
                         if(response.status === 422){
-                            console.log();
                             if(response.data.errors.email.length > 0){
-                               this.newUser.email.error = response.data.errors.email[0]  
+                               this.errors.registerError = response.data.errors.email[0]  
                             }
                         }
                         
@@ -98,8 +97,25 @@ export const useAuthStore = defineStore('auth', {
             }
         },
 
-        removeEmailServerError(){
-            this.newUser.email.error = ''
-        }
+        async logout() {
+            try {
+                return await http()
+                    .get('/logout')
+                    .then(({data}) => {
+                        if(data.success == true){
+                            localStorage.removeItem("userInfo");
+                            localStorage.removeItem("accessToken");
+                            sessionStorage.removeItem("auth");
+                            router.push('/')
+                            toast.success("Logout successful");
+                        }
+                    })
+                    .catch(({response}) => {
+                        console.log(response);
+                    })
+            } catch (loginError) {
+                console.log(loginError)
+            }
+        },
     },
 })

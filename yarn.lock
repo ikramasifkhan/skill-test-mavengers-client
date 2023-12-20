@@ -4902,6 +4902,11 @@
     "csso" "^5.0.5"
     "picocolors" "^1.0.0"
 
+"sweetalert2@11.x":
+  "integrity" "sha512-qu145oBuFfjYr5yZW9OSdG6YmRxDf8CnkgT/sXMfrXGe+asFy2imC2vlaLQ/L/naZ/JZna1MPAY56G4qYM0VUQ=="
+  "resolved" "https://registry.npmjs.org/sweetalert2/-/sweetalert2-11.10.1.tgz"
+  "version" "11.10.1"
+
 "table@^6.8.1":
   "integrity" "sha512-Y4X9zqrCftUhMeH2EptSSERdVKt/nEdijTOacGD/97EKjhQ/Qs8RTlEGABSJNNN8lac9kheH+af7yAkEWlgneA=="
   "resolved" "https://registry.npmjs.org/table/-/table-6.8.1.tgz"
@@ -5270,7 +5275,14 @@
   dependencies:
     "shepherd.js" "^11.1.0"
 
-"vue@^2.6.12 || ^3.2.4", "vue@^2.6.14 || ^3.3.0", "vue@^2.7.0 || ^3.2.25", "vue@^3.0.0", "vue@^3.0.0-0 || ^2.6.0", "vue@^3.0.0-0 || ^2.7.0", "vue@^3.0.11", "vue@^3.2.0", "vue@^3.2.25", "vue@^3.3.4", "vue@> 3.0.0", "vue@>=3", "vue@>=3.0.0", "vue@>=3.2.0", "vue@2 || 3", "vue@3.3.4":
+"vue-sweetalert2@^5.0.5":
+  "integrity" "sha512-Q7+TjQxNwGruT2jfPaSKMz18HHWs81r4umEwlrrtOf/QL5Iwl1T+tUaNkcvKB7Rf9rYftubt7NnOMjfDMnDH3A=="
+  "resolved" "https://registry.npmjs.org/vue-sweetalert2/-/vue-sweetalert2-5.0.5.tgz"
+  "version" "5.0.5"
+  dependencies:
+    "sweetalert2" "11.x"
+
+"vue@*", "vue@^2.6.12 || ^3.2.4", "vue@^2.6.14 || ^3.3.0", "vue@^2.7.0 || ^3.2.25", "vue@^3.0.0", "vue@^3.0.0-0 || ^2.6.0", "vue@^3.0.0-0 || ^2.7.0", "vue@^3.0.11", "vue@^3.2.0", "vue@^3.2.25", "vue@^3.3.4", "vue@> 3.0.0", "vue@>=3", "vue@>=3.0.0", "vue@>=3.2.0", "vue@2 || 3", "vue@3.3.4":
   "integrity" "sha512-VTyEYn3yvIeY1Py0WaYGZsXnz3y5UnGi62GjVEqvEGPl6nxbOrCXbVOTQWBEJUqAyTUk2uJ5JLVnYJ6ZzGbrSw=="
   "resolved" "https://registry.npmjs.org/vue/-/vue-3.3.4.tgz"
   "version" "3.3.4"

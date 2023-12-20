@@ -22,13 +22,13 @@ export const useArticleStore = defineStore('article', {
                 categories: [],
                 status: '',
                 published_at: ''
+            },
+            errors: {
+                title: ''
             }
          }
     },
 
-    // persist: {
-    //     storage: sessionStorage,
-    // },
 
     actions: {
         async articleList() {
@@ -61,12 +61,14 @@ export const useArticleStore = defineStore('article', {
                             this.newArticle.title = ''
                             this.newArticle.content = ''
                             this.newArticle.categories = ''
-                            router.push('/articles')
                             toast.success("Article created successfully");
+                            router.push('/articles')
                         }
                     })
                     .catch(({response}) => {
-                        console.log(response);
+                        if(response.data.errors.title.length > 0){
+                            this.errors.title = response.data.errors.title[0]  
+                         }
                     })
             } catch (loginError) {
                 console.log(loginError)
@@ -94,7 +96,9 @@ export const useArticleStore = defineStore('article', {
                         }
                     })
                     .catch(({response}) => {
-                        console.log(response);
+                        if(response.data.errors.title.length > 0){
+                            this.errors.title = response.data.errors.title[0]  
+                         }
                     })
             } catch (loginError) {
                 console.log(loginError)

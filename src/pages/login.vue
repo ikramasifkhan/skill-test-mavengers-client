@@ -55,6 +55,8 @@ const isPasswordVisible = ref(false)
                 label="Email"
                 type="email"
                 :rules="rulesStore.emailRules"
+                @keyup="authStore.errors.loginError = ''"
+                :error-messages="authStore.errors.loginError"
               />
             </VCol>
 
